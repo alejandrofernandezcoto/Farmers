@@ -1,13 +1,16 @@
-package org.pingpong.restjson;
+package edu.badpals;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import edu.badpals.domain.Farmer;
+import edu.badpals.domain.Fruit;
+import edu.badpals.service.ServiceFruit;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
