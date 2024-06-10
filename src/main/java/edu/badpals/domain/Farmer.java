@@ -1,10 +1,13 @@
 package edu.badpals.domain;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -28,6 +31,12 @@ public class Farmer {
         this.name = name;
         this.location = location;
     }
+
+    public Farmer() {
+    }
+
+    @OneToMany(mappedBy = "farmer")
+    public Set<Fruit> fruits;
 
     public Long getId() {
         return id;
