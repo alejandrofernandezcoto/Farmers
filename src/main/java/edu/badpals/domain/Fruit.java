@@ -1,5 +1,6 @@
 package edu.badpals.domain;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,12 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name="fruit") @ToString @EqualsAndHashCode
-public class Fruit {
+@Table(name="fruit") @ToString 
+public class Fruit extends PanacheEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
