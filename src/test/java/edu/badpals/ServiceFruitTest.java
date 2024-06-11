@@ -91,7 +91,7 @@ public class ServiceFruitTest {
 
     @Test
     public void getFruitTest() {
-        Assertions.assertThat(service.getFruit("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple").hasFieldOrPropertyWithValue("description", "Winter fruit").extracting("farmer").toString().compareTo("Farmer Rick, Sa Pobla");
-        Assertions.assertThat(service.getFruit("Mandarina")).isEmpty();
+        Assertions.assertThat(service.get("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple").hasFieldOrPropertyWithValue("description", "Winter fruit").extracting("farmer").toString().compareTo("Farmer Rick, Sa Pobla");
+        Assertions.assertThat(service.get("Mandarina")).isEmpty();
     }    
 }
