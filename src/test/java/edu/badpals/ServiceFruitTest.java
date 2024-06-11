@@ -14,7 +14,6 @@ import edu.badpals.service.ServiceFruit;
 import io.quarkus.test.junit.QuarkusTest;
 import edu.badpals.repository.RepoFarmer;
 import edu.badpals.repository.RepoFruit;
-import edu.badpals.repository.Repositorio;
 
 /**
  * Component Unit testing
@@ -26,9 +25,6 @@ public class ServiceFruitTest {
 
     @Inject
     ServiceFruit service;
-
-    @Inject
-    Repositorio repositorio;
 
     @Inject
     RepoFarmer repoFarmer;
@@ -103,7 +99,7 @@ public class ServiceFruitTest {
 
     @Test
     public void getFruitTest() {
-        Assertions.assertThat(service.get("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple").hasFieldOrPropertyWithValue("description", "Winter fruit").extracting("farmer").toString().compareTo("Farmer Rick, Sa Pobla");
-        Assertions.assertThat(service.get("Mandarina")).isEmpty();
+        Assertions.assertThat(service.getFruit("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple").hasFieldOrPropertyWithValue("description", "Winter fruit").extracting("farmer").toString().compareTo("Farmer Rick, Sa Pobla");
+        Assertions.assertThat(service.getFruit("Mandarina")).isEmpty();
     }    
 }
