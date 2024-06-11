@@ -36,5 +36,9 @@ public class Fruit extends PanacheEntity {
         this.farmer = farmer;
     }
 
+    public String getName() {
+        return name;
+    }
+
     
 }
