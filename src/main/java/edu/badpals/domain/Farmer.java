@@ -1,8 +1,6 @@
 package edu.badpals.domain;
 
 import java.util.Set;
-
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,11 +8,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name="farmer") @ToString 
-public class Farmer extends PanacheEntity{
+@Table(name="farmer") @ToString @EqualsAndHashCode
+public class Farmer{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,9 @@ public class Farmer extends PanacheEntity{
     @Column(name="location")
 	private String location;
 
+    @OneToMany(mappedBy = "farmer")
+    public Set<Fruit> fruits;
+
     public Farmer(String name, String location) {
         this.name = name;
         this.location = location;
@@ -34,9 +36,6 @@ public class Farmer extends PanacheEntity{
 
     public Farmer() {
     }
-
-    @OneToMany(mappedBy = "farmer")
-    public Set<Fruit> fruits;
 
     public Long getId() {
         return id;

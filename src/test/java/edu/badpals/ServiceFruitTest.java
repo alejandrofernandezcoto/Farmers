@@ -12,6 +12,9 @@ import edu.badpals.domain.Farmer;
 import edu.badpals.domain.Fruit;
 import edu.badpals.service.ServiceFruit;
 import io.quarkus.test.junit.QuarkusTest;
+import edu.badpals.repository.RepoFarmer;
+import edu.badpals.repository.RepoFruit;
+import edu.badpals.repository.Repositorio;
 
 /**
  * Component Unit testing
@@ -24,6 +27,15 @@ public class ServiceFruitTest {
     @Inject
     ServiceFruit service;
 
+    @Inject
+    Repositorio repositorio;
+
+    @Inject
+    RepoFarmer repoFarmer;
+
+    @Inject
+    RepoFruit repoFruit;
+
     // @Test de jupiter, no el de junit
     @Test
     public void testList() {
@@ -33,7 +45,7 @@ public class ServiceFruitTest {
     @Test
     public void containsTest() {
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Apple"))).isTrue();
-    }
+    }   
     
     @Test
     public void addTest() {
@@ -42,13 +54,13 @@ public class ServiceFruitTest {
                               new Farmer("Farmer Rick", "Sa Pobla")));
         Assertions.assertThat(service.list()).hasSize(3);
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Banana"))).isTrue();
-        Assertions.assertThat(Farmer.count()).isEqualTo(2L);
+        Assertions.assertThat(repoFruit.count()).isEqualTo(2L);
 
         // handmade rollback gracias al antipatron ActiveRecord ;)
-        Fruit fruit = Fruit.find("name", "Banana").firstResult();
-        fruit.delete();
-        Assertions.assertThat(Fruit.count()).isEqualTo(2L);
-        Assertions.assertThat(Farmer.count()).isEqualTo(2L);
+        Fruit fruit = repoFruit.find("name", "Banana").firstResult();
+        repoFruit.delete(fruit);
+        Assertions.assertThat(repoFruit.count()).isEqualTo(2L);
+        Assertions.assertThat(repoFarmer.count()).isEqualTo(2L);
     }
 
     // CORREGIR ESTE TEST PORQUE ES NUEVO 
@@ -60,15 +72,15 @@ public class ServiceFruitTest {
         Assertions.assertThat(service.list()).hasSize(3);
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Navel Late"))).isTrue();
         // hay un nuevo registro en la tabla Farmer
-        Assertions.assertThat(Farmer.count()).isEqualTo(3L);
+        Assertions.assertThat(repoFarmer.count()).isEqualTo(3L);
 
         // handmade rollback gracias al antipatron ActiveRecord ;)
-        Fruit fruit = Fruit.find("name", "Navel Late").firstResult();
-        fruit.delete();
-        Assertions.assertThat(Fruit.count()).isEqualTo(2L);
-        Farmer farmer = Farmer.find("name", "Jerrys Bites").firstResult();
-        farmer.delete();
-        Assertions.assertThat(Farmer.count()).isEqualTo(2L);
+        Fruit fruit = repoFruit.find("name", "Navel Late").firstResult();
+        repoFruit.delete(fruit);
+        Assertions.assertThat(repoFruit.count()).isEqualTo(2L);
+        Farmer farmer = repoFarmer.find("name", "Jerrys Bites").firstResult();
+        repoFarmer.delete(farmer);
+        Assertions.assertThat(repoFarmer.count()).isEqualTo(2L);
     }
 
 
@@ -77,16 +89,16 @@ public class ServiceFruitTest {
         service.remove("Apple");
         Assertions.assertThat(service.list()).hasSize(1);
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Apple"))).isFalse();
-        Assertions.assertThat(Fruit.count()).isEqualTo(1L);
-        Assertions.assertThat(Farmer.count()).isEqualTo(2L);
+        Assertions.assertThat(repoFruit.count()).isEqualTo(1L);
+        Assertions.assertThat(repoFarmer.count()).isEqualTo(2L);
 
-        Optional<Farmer> supplier = Farmer.find("name", "Farmer Rick").firstResultOptional();
+        Optional<Farmer> supplier = repoFarmer.find("name", "Farmer Rick").firstResultOptional();
         Assertions.assertThat(supplier).isNotEmpty();
 
         // handmade rollback gracias al antipatron ActiveRecord ;)
         Fruit fruit = new Fruit("Apple", "Winter fruit", supplier.get());
-        fruit.persist();
-        Assertions.assertThat(Fruit.count()).isEqualTo(2);
+        repoFruit.persist(fruit);
+        Assertions.assertThat(repoFruit.count()).isEqualTo(2);
     }
 
     @Test
