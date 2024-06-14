@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import edu.badpals.domain.Farmer;
 import edu.badpals.domain.Fruit;
-import edu.badpals.service.ServiceFruit;
-import io.quarkus.test.junit.QuarkusTest;
 import edu.badpals.repository.RepoFarmer;
 import edu.badpals.repository.RepoFruit;
+import edu.badpals.service.ServiceFruit;
+import io.quarkus.test.junit.QuarkusTest;
 
 /**
  * Component Unit testing
@@ -41,7 +41,7 @@ public class ServiceFruitTest {
     @Test
     public void containsTest() {
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Apple"))).isTrue();
-    }   
+    }
     
     @Test
     public void addTest() {
@@ -50,7 +50,7 @@ public class ServiceFruitTest {
                               new Farmer("Farmer Rick", "Sa Pobla")));
         Assertions.assertThat(service.list()).hasSize(3);
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Banana"))).isTrue();
-        Assertions.assertThat(repoFruit.count()).isEqualTo(2L);
+        Assertions.assertThat(repoFarmer.count()).isEqualTo(2L);
 
         // handmade rollback gracias al antipatron ActiveRecord ;)
         Fruit fruit = repoFruit.find("name", "Banana").firstResult();

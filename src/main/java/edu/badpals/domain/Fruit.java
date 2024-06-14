@@ -2,40 +2,31 @@ package edu.badpals.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
-@Table(name="fruit") @ToString @EqualsAndHashCode
-public class Fruit {
+@Table(name="fruit")
+public class Fruit extends PanacheEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
-	
     @NotBlank
-	@Column(name="name", unique = true)
-	private String name;
-
+    @Column(unique = true)
+    public String name;
+    
     @NotEmpty
-    @Column(name="description")
-	private String description;
+    @Column
+    public String description;
 
     @ManyToOne
     @JoinColumn(name = "farmer_id")
     public Farmer farmer;
 
-    public Fruit(){
-
+    public Fruit() {
     }
 
     public Fruit(String name, String description, Farmer farmer) {
@@ -45,11 +36,18 @@ public class Fruit {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Farmer getFarmer() {
+        return farmer;
+    }
+
+    public void setFarmer(Farmer farmer) {
+        this.farmer = farmer;
     }
 
     

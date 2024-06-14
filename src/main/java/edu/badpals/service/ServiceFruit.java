@@ -21,6 +21,9 @@ public class ServiceFruit {
 	@Inject
 	RepoFruit repoFruit;
 
+    public ServiceFruit() { 
+    }
+
 	@Transactional
 	public Set<Fruit> list() {
         Stream<Fruit> fruits = repoFruit.streamAll();
@@ -30,7 +33,7 @@ public class ServiceFruit {
     }
 
 	public Optional<Farmer> loadSupplier(Fruit fruit){
-		return this.repoFarmer.find("name", fruit.farmer.getName()).firstResultOptional();
+		return this.repoFarmer.find("name", fruit.farmer.name).firstResultOptional();
 	}
 
 	public Optional<Fruit> loadFruit(String nameFruit){
@@ -39,11 +42,11 @@ public class ServiceFruit {
 
 	@Transactional
     public void add(Fruit fruit) {
-        Optional<Farmer> supplier =loadSupplier(fruit);
-        if (supplier.isPresent()) { 
-            fruit.farmer = supplier.get();
+        Optional<Farmer> supplier = loadSupplier(fruit);
+        if (supplier.isPresent()) {
+            fruit.setFarmer(supplier.get());
         } else {
-            repoFarmer.persist(fruit.farmer);
+            repoFarmer.persist(fruit.getFarmer());
         }
         repoFruit.persist(fruit);
     }
@@ -52,7 +55,7 @@ public class ServiceFruit {
     public void remove(String name) {
        Optional<Fruit> fruit= loadFruit(name);
         if (fruit.isPresent()) {
-            repoFruit.delete(fruit.get().getName());
+            repoFruit.delete(fruit.get());
         }
     }
 
