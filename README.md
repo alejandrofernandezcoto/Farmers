@@ -4,6 +4,16 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+
+## Author
+
+Alejandro Fernandez Coto.
+
+
+## Description
+
+The Farmers project aims to facilitate access to fresh, quality agricultural products directly from local producers. Through this platform, farmers can list their products and consumers can buy them simply and directly, promoting fair and sustainable trade.
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
