@@ -1,4 +1,4 @@
-# farmers
+# Farmers
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
